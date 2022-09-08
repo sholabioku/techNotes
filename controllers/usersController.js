@@ -42,7 +42,7 @@ const createNewUser = asyncHandler(async (req, res) => {
 // @route PATCH /users
 // @access Private
 const updateUser = asyncHandler(async (req, res) => {
-  const { id, username, roles, active } = req.body;
+  const { id, username, roles, active, password } = req.body;
   if (
     !id ||
     !username ||
@@ -57,7 +57,7 @@ const updateUser = asyncHandler(async (req, res) => {
 
   const duplicate = await User.findOne({ username }).lean().exec();
   // Allow updates to the original user
-  if (duplicate && dupliacte?._id.toString() !== id)
+  if (duplicate && duplicate?._id.toString() !== id)
     return res.status(409).json({ message: 'Duplicate username' });
 
   user.username = username;
